@@ -2,7 +2,7 @@
  * Name:    Katkov Stepan*
  * Project: Lab02        *
  * Var 8                 *
- * ***********************/
+ *************************/
 #include <iostream>
 #include <cmath>
 #include <iomanip>
@@ -10,35 +10,53 @@
 using namespace std;
 
 int main() {
-
     double R, n, T, V1;
 
-    cout << "R =";
-    cin  >> R;
-    cout << "n =";
-    cin  >> n;
-    cout << "T =";
-    cin  >> T;
-    cout << "V1 =";
-    cin  >> V1;
-
-    double V2Values[] = {2.2, 2.4, 2.6, 2.8, 3.0, 4.0, 5.0, 6.0, 7.0};
-    int numPoints = sizeof(V2Values) / sizeof (V2Values[0]);
+    cout << "R = ";
+    cin >> R;
+    cout << "n = ";
+    cin >> n;
+    cout << "T = ";
+    cin >> T;
+    cout << "V1 = ";
+    cin >> V1;
 
     cout << fixed << setprecision(3);
+    cout << setw(8) << "V2" << setw(12) << "A1" << setw(12) << "A2" << endl;
+    cout << "----------------------------------------" << endl;
+
+    double currentV2 = 2.2;
+    int stepCounter = 0;
     
-    int i = 0;	
-    while (i < numPoints) {
-        double V2 = V2Values[i];
-
-        double A1 = R * T * log(V2 / V1);
-
-        double A2 = (R * T / (n - 1)) * (1 - pow(V1 / V2, n - 1));
+    while (stepCounter < 5) {
+        double V2 = currentV2;
+        double volumeRatio = V2 / V1;
+        
+        double A1 = R * T * log(volumeRatio);
+        double A2 = (R * T / (n - 1.0)) * (1.0 - pow(V1 / V2, n - 1.0));
 
         cout << setw(8) << V2 << setw(12) << A1 << setw(12) << A2 << endl;
         
-        i++;
+        currentV2 += 0.2;
+        stepCounter++;
     }
+
+    double startV2 = 4.0;
+    double endV2 = 7.0;
+    double stepSize = 1.0;
+    double volumeIterator = startV2;
+    
+    do {
+        double V2 = volumeIterator;
+        double volumeRatio = V2 / V1;
+        
+        double A1 = R * T * log(volumeRatio);
+        double A2 = (R * T / (n - 1.0)) * (1.0 - pow(V1 / V2, n - 1.0));
+
+        cout << setw(8) << V2 << setw(12) << A1 << setw(12) << A2 << endl;
+        
+        volumeIterator += stepSize;
+    } while (volumeIterator <= endV2);
 
     return 0;
 }
